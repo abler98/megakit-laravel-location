@@ -1,0 +1,30 @@
+{
+    "name": "megakit/laravel-location",
+    "license": "MIT",
+    "type": "library",
+    "description": "",
+    "authors": [
+        {
+            "name": "Sergey Semenko",
+            "email": "abler98@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MegaKit\\Laravel\\Location\\": "src/"
+        }
+    },
+    "require": {
+        "toin0u/geocoder-laravel": "^4.0",
+        "scriptixru/sypexgeo": "^0.2.0@dev"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MegaKit\\Laravel\\Location\\LocationServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
