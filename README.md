@@ -25,6 +25,10 @@ $ php artisan vendor:publish --provider="MegaKit\Laravel\Location\LocationServic
 ```php
 <?php
 
+use MegaKit\Laravel\Location\Resolvers\DefaultLocationResolver;
+use MegaKit\Laravel\Location\Resolvers\NullSubdomainLocationResolver;
+use MegaKit\Laravel\Location\Transformers\NullTransformer;
+
 return [
 
     'driver' => env('LOCATION_PROVIDER', 'chain'),
@@ -57,6 +61,9 @@ return [
         'providers' => [
             'chain' => [
                 'providers' => ['geocoder-php'],
+            ],
+            'geocoder-php' => [
+                //
             ],
         ],
     ],
@@ -130,3 +137,8 @@ class HomeController extends Controller
     }
 }
 ```
+
+License
+-------
+
+This package is released under the MIT License. See the bundled LICENSE file for details.
