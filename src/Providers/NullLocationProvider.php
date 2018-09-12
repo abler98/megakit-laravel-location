@@ -1,8 +1,9 @@
 <?php
 
-namespace MegaKit\Laravel\Location;
+namespace MegaKit\Laravel\Location\Providers;
 
 use MegaKit\Laravel\Location\Contracts\LocationGeoProvider;
+use MegaKit\Laravel\Location\Models\Location;
 
 class NullLocationProvider implements LocationGeoProvider
 {

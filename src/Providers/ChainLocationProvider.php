@@ -4,7 +4,7 @@ namespace MegaKit\Laravel\Location\Providers;
 
 use MegaKit\Laravel\Location\Contracts\LocationGeoProvider;
 use MegaKit\Laravel\Location\Contracts\LocationProviderFactory;
-use MegaKit\Laravel\Location\Location;
+use MegaKit\Laravel\Location\Models\Location;
 
 class ChainLocationProvider implements LocationGeoProvider
 {

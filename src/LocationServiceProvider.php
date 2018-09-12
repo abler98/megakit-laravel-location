@@ -17,6 +17,7 @@ use MegaKit\Laravel\Location\Drivers\DefaultLocationDriver;
 use MegaKit\Laravel\Location\Drivers\GeoLocationDriver;
 use MegaKit\Laravel\Location\Drivers\SubdomainLocationDriver;
 use MegaKit\Laravel\Location\Locators\ResolveTransformLocationLocator;
+use MegaKit\Laravel\Location\Models\Location;
 use MegaKit\Laravel\Location\Providers\ChainLocationProvider;
 use MegaKit\Laravel\Location\Providers\GeocoderLocationProvider;
 

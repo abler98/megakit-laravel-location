@@ -2,7 +2,7 @@
 
 namespace MegaKit\Laravel\Location\Contracts;
 
-use MegaKit\Laravel\Location\Location;
+use MegaKit\Laravel\Location\Models\Location;
 
 interface LocationTransformer
 {

@@ -6,9 +6,9 @@ use Geocoder\Laravel\ProviderAndDumperAggregator as Geocoder;
 use Geocoder\Location as GeocoderLocation;
 use Geocoder\Query\GeocodeQuery;
 use MegaKit\Laravel\Location\Contracts\LocationGeoProvider;
-use MegaKit\Laravel\Location\Location;
 use MegaKit\Laravel\Location\Models\City;
 use MegaKit\Laravel\Location\Models\Country;
+use MegaKit\Laravel\Location\Models\Location;
 use MegaKit\Laravel\Location\Models\Point;
 
 class GeocoderLocationProvider implements LocationGeoProvider

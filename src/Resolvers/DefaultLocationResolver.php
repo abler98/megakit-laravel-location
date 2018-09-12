@@ -4,8 +4,8 @@ namespace MegaKit\Laravel\Location\Resolvers;
 
 use Illuminate\Http\Request;
 use MegaKit\Laravel\Location\Contracts\LocationResolver;
-use MegaKit\Laravel\Location\Location;
-use MegaKit\Laravel\Location\LocationNotFoundException;
+use MegaKit\Laravel\Location\Models\Location;
+use MegaKit\Laravel\Location\Models\LocationNotFoundException;
 
 class DefaultLocationResolver implements LocationResolver
 {

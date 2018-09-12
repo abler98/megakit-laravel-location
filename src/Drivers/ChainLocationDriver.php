@@ -5,7 +5,7 @@ namespace MegaKit\Laravel\Location\Drivers;
 use Illuminate\Http\Request;
 use MegaKit\Laravel\Location\Contracts\LocationDriver;
 use MegaKit\Laravel\Location\Contracts\LocationManager;
-use MegaKit\Laravel\Location\Location;
+use MegaKit\Laravel\Location\Models\Location;
 
 class ChainLocationDriver implements LocationDriver
 {

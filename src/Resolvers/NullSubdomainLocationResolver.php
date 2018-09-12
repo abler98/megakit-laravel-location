@@ -3,7 +3,7 @@
 namespace MegaKit\Laravel\Location\Resolvers;
 
 use Illuminate\Http\Request;
-use MegaKit\Laravel\Location\Location;
+use MegaKit\Laravel\Location\Models\Location;
 
 class NullSubdomainLocationResolver extends SubdomainLocationResolver
 {

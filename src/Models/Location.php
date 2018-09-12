@@ -1,12 +1,10 @@
 <?php
 
-namespace MegaKit\Laravel\Location;
+namespace MegaKit\Laravel\Location\Models;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use JsonSerializable;
-use MegaKit\Laravel\Location\Models\City;
-use MegaKit\Laravel\Location\Models\Country;
 use MegaKit\Laravel\Location\Models\Jsonable as JsonableTrait;
 
 class Location implements Arrayable, Jsonable, JsonSerializable

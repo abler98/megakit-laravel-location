@@ -3,7 +3,7 @@
 namespace MegaKit\Laravel\Location\Contracts;
 
 use Illuminate\Http\Request;
-use MegaKit\Laravel\Location\Location;
+use MegaKit\Laravel\Location\Models\Location;
 
 interface LocationDriver
 {
