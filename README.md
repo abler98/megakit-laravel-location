@@ -1,4 +1,8 @@
-# Location Locator for Laravel
+Location Locator for Laravel
+============================
+
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![Version](https://poser.pugx.org/megakit/laravel-location/v/stable.svg)](https://packagist.org/packages/megakit/laravel-location)
 
 This library helps to quickly locate a user's location.
 

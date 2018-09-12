@@ -2,7 +2,7 @@
     "name": "megakit/laravel-location",
     "license": "MIT",
     "type": "library",
-    "description": "",
+    "description": "This library helps to quickly locate a user's location.",
     "authors": [
         {
             "name": "Sergey Semenko",
