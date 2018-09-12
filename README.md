@@ -87,7 +87,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
 use MegaKit\Laravel\Location\Contracts\LocationLocator;
 use MegaKit\Laravel\Location\Contracts\LocationResolver;
-use MegaKit\Laravel\Location\Location;
+use MegaKit\Laravel\Location\Models\Location;
 
 class HomeController extends Controller
 {
