@@ -57,7 +57,7 @@ class LocationServiceProvider extends ServiceProvider
         $this->registerDrivers();
         $this->registerGeoProviders();
 
-        $this->publishes([__DIR__.'/../config/location.php' => config_path('location.php')], 'config');
+        $this->publishes([__DIR__.'/../config/location.php' => config_path('location.php')], 'laravel-location');
     }
 
     /**

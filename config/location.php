@@ -37,6 +37,9 @@ return [
             'chain' => [
                 'providers' => ['geocoder-php'],
             ],
+            'geocoder-php' => [
+                //
+            ],
         ],
     ],
 
