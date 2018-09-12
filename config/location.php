@@ -1,17 +1,22 @@
 <?php
 
 use MegaKit\Laravel\Location\Resolvers\DefaultLocationResolver;
+use MegaKit\Laravel\Location\Resolvers\NullSubdomainLocationResolver;
+use MegaKit\Laravel\Location\Transformers\NullTransformer;
 
 return [
 
     'driver' => env('LOCATION_PROVIDER', 'chain'),
+
+    'transformer' => NullTransformer::class,
 
     'drivers' => [
         'chain' => [
             'drivers' => ['subdomain', 'cookie', 'geo', 'default'],
         ],
         'subdomain' => [
-            //
+            'resolver' => NullSubdomainLocationResolver::class,
+            'url' => env('APP_URL'),
         ],
         'cookie' => [
             'name' => 'laravel_location',

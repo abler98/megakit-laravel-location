@@ -24,15 +24,15 @@ class LocationResolver implements LocationResolverInterface
 
     /**
      * @param Request $request
-     * @return Location
-     * @throws LocationException
+     * @return Location|null
+     * @throws LocationNotFoundException
      */
-    public function resolve(Request $request): Location
+    public function resolve(Request $request): ?Location
     {
         $location = $this->driver->resolve($request);
 
         if (null === $location) {
-            throw new LocationException('Can\'t resolve location');
+            throw new LocationNotFoundException('Can\'t resolve location');
         }
 
         return $location;

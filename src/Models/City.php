@@ -2,8 +2,15 @@
 
 namespace MegaKit\Laravel\Location\Models;
 
-class City
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
+use JsonSerializable;
+use MegaKit\Laravel\Location\Models\Jsonable as JsonableTrait;
+
+class City implements Arrayable, Jsonable, JsonSerializable
 {
+    use JsonableTrait;
+
     /**
      * @var string|null
      */
@@ -44,5 +51,18 @@ class City
     public function setCoordinates(?Point $coordinates): void
     {
         $this->coordinates = $coordinates;
+    }
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'name' => $this->name,
+            'coordinates' => $this->coordinates,
+        ];
     }
 }

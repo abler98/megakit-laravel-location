@@ -9,7 +9,7 @@ interface LocationResolver
 {
     /**
      * @param Request $request
-     * @return Location
+     * @return Location|null
      */
-    public function resolve(Request $request): Location;
+    public function resolve(Request $request): ?Location;
 }

@@ -6,16 +6,19 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use MegaKit\Laravel\Location\Contracts\LocationDriver as LocationDriverInterface;
+use MegaKit\Laravel\Location\Contracts\LocationLocator;
+use MegaKit\Laravel\Location\Contracts\LocationManager as LocationManagerInterface;
 use MegaKit\Laravel\Location\Contracts\LocationProviderFactory as LocationProviderFactoryInterface;
 use MegaKit\Laravel\Location\Contracts\LocationResolver as LocationResolverInterface;
+use MegaKit\Laravel\Location\Contracts\LocationTransformer;
 use MegaKit\Laravel\Location\Drivers\ChainLocationDriver;
 use MegaKit\Laravel\Location\Drivers\CookieLocationDriver;
 use MegaKit\Laravel\Location\Drivers\DefaultLocationDriver;
 use MegaKit\Laravel\Location\Drivers\GeoLocationDriver;
 use MegaKit\Laravel\Location\Drivers\SubdomainLocationDriver;
+use MegaKit\Laravel\Location\Locators\ResolveTransformLocationLocator;
 use MegaKit\Laravel\Location\Providers\ChainLocationProvider;
 use MegaKit\Laravel\Location\Providers\GeocoderLocationProvider;
-use MegaKit\Laravel\Location\Contracts\LocationManager as LocationManagerInterface;
 
 class LocationServiceProvider extends ServiceProvider
 {
@@ -39,6 +42,8 @@ class LocationServiceProvider extends ServiceProvider
         'location.driver' => LocationDriverInterface::class,
         'location.geo.factory' => LocationProviderFactoryInterface::class,
         'location.resolver' => LocationResolverInterface::class,
+        'location.locator' => LocationLocator::class,
+        'location.transformer' => LocationTransformer::class,
     ];
 
     /**
@@ -141,6 +146,10 @@ class LocationServiceProvider extends ServiceProvider
                 $this->app->make('config')->get('location.driver')
             );
         });
+
+        $this->app->singleton(LocationTransformer::class, function () {
+            return $this->app->make($this->app->make('config')->get('location.transformer'));
+        });
     }
 
     /**
@@ -151,6 +160,7 @@ class LocationServiceProvider extends ServiceProvider
         $this->app->singleton(LocationManagerInterface::class, LocationManager::class);
         $this->app->singleton(LocationProviderFactoryInterface::class, LocationProviderFactory::class);
         $this->app->singleton(LocationResolverInterface::class, LocationResolver::class);
+        $this->app->singleton(LocationLocator::class, ResolveTransformLocationLocator::class);
     }
 
     /**

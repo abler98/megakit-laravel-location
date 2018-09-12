@@ -2,11 +2,17 @@
 
 namespace MegaKit\Laravel\Location;
 
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
+use JsonSerializable;
 use MegaKit\Laravel\Location\Models\City;
 use MegaKit\Laravel\Location\Models\Country;
+use MegaKit\Laravel\Location\Models\Jsonable as JsonableTrait;
 
-class Location
+class Location implements Arrayable, Jsonable, JsonSerializable
 {
+    use JsonableTrait;
+
     /**
      * @var City|null
      */
@@ -47,5 +53,16 @@ class Location
     public function setCountry(?Country $country): void
     {
         $this->country = $country;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'city' => $this->city,
+            'country' => $this->country,
+        ];
     }
 }

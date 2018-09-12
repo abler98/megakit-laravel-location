@@ -15,8 +15,7 @@
         }
     },
     "require": {
-        "toin0u/geocoder-laravel": "^4.0",
-        "scriptixru/sypexgeo": "^0.2.0@dev"
+        "toin0u/geocoder-laravel": "^4.0"
     },
     "extra": {
         "laravel": {

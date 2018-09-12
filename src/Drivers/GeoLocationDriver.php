@@ -3,13 +3,13 @@
 namespace MegaKit\Laravel\Location\Drivers;
 
 use Illuminate\Cache\CacheManager;
+use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use MegaKit\Laravel\Location\Contracts\LocationDriver;
 use MegaKit\Laravel\Location\Contracts\LocationGeoProvider;
 use MegaKit\Laravel\Location\Contracts\LocationProviderFactory;
 use MegaKit\Laravel\Location\Location;
-use Illuminate\Contracts\Cache\Repository as CacheRepository;
 
 class GeoLocationDriver implements LocationDriver
 {
