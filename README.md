@@ -6,7 +6,7 @@ Location Locator for Laravel
 [![Latest Unstable Version](https://poser.pugx.org/megakit/laravel-location/v/unstable)](https://packagist.org/packages/megakit/laravel-location)
 [![License](https://poser.pugx.org/megakit/laravel-location/license)](https://packagist.org/packages/megakit/laravel-location)
 
-This library helps to quickly locate a user's location.
+This library helps you quickly locate a user location.
 
 Installation
 ------------
