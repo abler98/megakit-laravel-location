@@ -2,32 +2,37 @@
 
 use MegaKit\Laravel\Location\Resolvers\DefaultLocationResolver;
 use MegaKit\Laravel\Location\Resolvers\NullSubdomainLocationResolver;
-use MegaKit\Laravel\Location\Transformers\NullTransformer;
+use MegaKit\Laravel\Location\Transformers\CountryNameTransformer;
 
 return [
 
-    'driver' => env('LOCATION_PROVIDER', 'chain'),
+    'source' => env('LOCATION_SOURCE', 'chain'),
 
-    'transformer' => NullTransformer::class,
+    'transformer' => CountryNameTransformer::class,
 
-    'drivers' => [
+    'sources' => [
         'chain' => [
-            'drivers' => ['subdomain', 'cookie', 'geo', 'default'],
+            'driver' => 'chain',
+            'sources' => ['subdomain', 'cookie', 'geo', 'default'],
         ],
         'subdomain' => [
+            'driver' => 'subdomain',
             'resolver' => NullSubdomainLocationResolver::class,
             'url' => env('APP_URL'),
         ],
         'cookie' => [
+            'driver' => 'cookie',
             'name' => 'laravel_location',
         ],
         'geo' => [
+            'driver' => 'geo',
             'provider' => env('LOCATION_GEO_PROVIDER', 'chain'),
             'cache' => true,
             'cache_driver' => env('LOCATION_GEO_CACHE_DRIVER'),
             'cache_lifetime' => 0,
         ],
         'default' => [
+            'driver' => 'resolver',
             'resolver' => DefaultLocationResolver::class,
         ],
     ],

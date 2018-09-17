@@ -4,30 +4,30 @@ namespace MegaKit\Laravel\Location\Drivers;
 
 use Illuminate\Http\Request;
 use MegaKit\Laravel\Location\Contracts\LocationDriver;
-use MegaKit\Laravel\Location\Contracts\LocationManager;
+use MegaKit\Laravel\Location\Contracts\LocationSourceManager;
 use MegaKit\Laravel\Location\Models\Location;
 
 class ChainLocationDriver implements LocationDriver
 {
     /**
-     * @var LocationManager
+     * @var LocationSourceManager
      */
     private $manager;
 
     /**
      * @var array
      */
-    private $drivers;
+    private $sources;
 
     /**
      * ChainLocationDriver constructor.
-     * @param LocationManager $manger
+     * @param LocationSourceManager $manger
      * @param array $config
      */
-    public function __construct(LocationManager $manger, array $config)
+    public function __construct(LocationSourceManager $manger, array $config)
     {
         $this->manager = $manger;
-        $this->drivers = $config['drivers'];
+        $this->sources = $config['sources'];
     }
 
     /**
@@ -36,8 +36,8 @@ class ChainLocationDriver implements LocationDriver
      */
     public function resolve(Request $request): ?Location
     {
-        foreach ($this->drivers as $driver) {
-            if ($location = $this->manager->make($driver)->resolve($request)) {
+        foreach ($this->sources as $source) {
+            if ($location = $this->manager->make($source)->resolve($request)) {
                 return $location;
             }
         }

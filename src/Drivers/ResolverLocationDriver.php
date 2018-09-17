@@ -8,7 +8,7 @@ use MegaKit\Laravel\Location\Contracts\LocationDriver;
 use MegaKit\Laravel\Location\Contracts\LocationResolver;
 use MegaKit\Laravel\Location\Models\Location;
 
-abstract class AbstractResolverDriver implements LocationDriver
+class ResolverLocationDriver implements LocationDriver
 {
     /**
      * @var LocationResolver

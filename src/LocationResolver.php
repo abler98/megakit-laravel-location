@@ -5,6 +5,7 @@ namespace MegaKit\Laravel\Location;
 use Illuminate\Http\Request;
 use MegaKit\Laravel\Location\Contracts\LocationDriver;
 use MegaKit\Laravel\Location\Contracts\LocationResolver as LocationResolverInterface;
+use MegaKit\Laravel\Location\Contracts\LocationSource;
 use MegaKit\Laravel\Location\Models\Location;
 
 class LocationResolver implements LocationResolverInterface
@@ -12,15 +13,15 @@ class LocationResolver implements LocationResolverInterface
     /**
      * @var LocationDriver
      */
-    private $driver;
+    private $source;
 
     /**
      * LocationResolver constructor.
-     * @param LocationDriver $driver
+     * @param LocationSource $source
      */
-    public function __construct(LocationDriver $driver)
+    public function __construct(LocationSource $source)
     {
-        $this->driver = $driver;
+        $this->source = $source;
     }
 
     /**
@@ -30,7 +31,7 @@ class LocationResolver implements LocationResolverInterface
      */
     public function resolve(Request $request): ?Location
     {
-        $location = $this->driver->resolve($request);
+        $location = $this->source->resolve($request);
 
         if (null === $location) {
             throw new LocationNotFoundException('Can\'t resolve location');

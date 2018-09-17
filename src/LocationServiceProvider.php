@@ -10,16 +10,21 @@ use MegaKit\Laravel\Location\Contracts\LocationLocator;
 use MegaKit\Laravel\Location\Contracts\LocationManager as LocationManagerInterface;
 use MegaKit\Laravel\Location\Contracts\LocationProviderFactory as LocationProviderFactoryInterface;
 use MegaKit\Laravel\Location\Contracts\LocationResolver as LocationResolverInterface;
+use MegaKit\Laravel\Location\Contracts\LocationSource;
+use MegaKit\Laravel\Location\Contracts\LocationSourceManager as LocationSourceManagerInterface;
 use MegaKit\Laravel\Location\Contracts\LocationTransformer;
 use MegaKit\Laravel\Location\Drivers\ChainLocationDriver;
 use MegaKit\Laravel\Location\Drivers\CookieLocationDriver;
 use MegaKit\Laravel\Location\Drivers\DefaultLocationDriver;
 use MegaKit\Laravel\Location\Drivers\GeoLocationDriver;
+use MegaKit\Laravel\Location\Drivers\ResolverLocationDriver;
 use MegaKit\Laravel\Location\Drivers\SubdomainLocationDriver;
 use MegaKit\Laravel\Location\Locators\ResolveTransformLocationLocator;
 use MegaKit\Laravel\Location\Models\Location;
 use MegaKit\Laravel\Location\Providers\ChainLocationProvider;
 use MegaKit\Laravel\Location\Providers\GeocoderLocationProvider;
+use MegaKit\Laravel\Location\Providers\NullLocationProvider;
+use MegaKit\Laravel\Location\Sources\DriverLocationSource;
 
 class LocationServiceProvider extends ServiceProvider
 {
@@ -31,7 +36,7 @@ class LocationServiceProvider extends ServiceProvider
         'subdomain' => SubdomainLocationDriver::class,
         'cookie' => CookieLocationDriver::class,
         'geo' => GeoLocationDriver::class,
-        'default' => DefaultLocationDriver::class,
+        'resolver' => ResolverLocationDriver::class,
     ];
 
     /**
@@ -39,6 +44,8 @@ class LocationServiceProvider extends ServiceProvider
      */
     protected $aliases = [
         'location' => Location::class,
+        'location.source' => LocationSource::class,
+        'location.source.manager' => LocationSourceManagerInterface::class,
         'location.manager' => LocationManagerInterface::class,
         'location.driver' => LocationDriverInterface::class,
         'location.geo.factory' => LocationProviderFactoryInterface::class,
@@ -54,6 +61,7 @@ class LocationServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->registerSources();
         $this->registerRequestMacros();
         $this->registerDrivers();
         $this->registerGeoProviders();
@@ -82,10 +90,26 @@ class LocationServiceProvider extends ServiceProvider
         $manager = $this->app->make(LocationManager::class);
 
         foreach ($this->drivers as $name => $class) {
-            $manager->extend($name, function () use ($name, $class) {
+            $manager->extend($name, function (array $config) use ($name, $class) {
                 return $this->app->make($class, [
-                    'name' => $name,
-                    'config' => $this->app->make('config')->get("location.drivers.$name"),
+                    'name' => $name, 'config' => $config,
+                ]);
+            });
+        }
+    }
+
+    /**
+     * @return void
+     */
+    protected function registerSources(): void
+    {
+        $manager = $this->app->make(LocationSourceManager::class);
+        $sources = $this->app->make('config')->get('location.sources');
+
+        foreach ($sources as $name => $config) {
+            $manager->extend($name, function () use ($config) {
+                return $this->app->make(DriverLocationSource::class, [
+                    'config' => $config
                 ]);
             });
         }
@@ -139,12 +163,16 @@ class LocationServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(LocationManager::class, function () {
-            return new LocationManager($this->app->make(Application::class));
+            return new LocationManager($this->app);
         });
 
-        $this->app->singleton(LocationDriverInterface::class, function () {
-            return $this->app->make('location.manager')->make(
-                $this->app->make('config')->get('location.driver')
+        $this->app->singleton(LocationSourceManager::class, function () {
+            return new LocationSourceManager($this->app->make(Application::class));
+        });
+
+        $this->app->singleton(LocationSource::class, function () {
+            return $this->app->make('location.source.manager')->make(
+                $this->app->make('config')->get('location.source')
             );
         });
 
@@ -158,6 +186,7 @@ class LocationServiceProvider extends ServiceProvider
      */
     protected function registerSimpleServices()
     {
+        $this->app->singleton(LocationSourceManagerInterface::class, LocationSourceManager::class);
         $this->app->singleton(LocationManagerInterface::class, LocationManager::class);
         $this->app->singleton(LocationProviderFactoryInterface::class, LocationProviderFactory::class);
         $this->app->singleton(LocationResolverInterface::class, LocationResolver::class);

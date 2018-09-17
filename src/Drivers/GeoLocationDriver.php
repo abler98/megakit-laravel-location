@@ -19,10 +19,18 @@ class GeoLocationDriver implements LocationDriver
     private $provider;
 
     /**
-     * @var CacheRepository
+     * @var bool
      */
     private $cache;
 
+    /**
+     * @var CacheRepository
+     */
+    private $cacheRepository;
+
+    /**
+     * @var int
+     */
     private $cacheLifetime;
 
     /**
@@ -34,7 +42,8 @@ class GeoLocationDriver implements LocationDriver
     public function __construct(LocationProviderFactory $providerFactory, CacheManager $cacheManager, array $config)
     {
         $this->provider = $providerFactory->make($config['provider']);
-        $this->cache = $cacheManager->driver(Arr::get($config, 'cache_driver'));
+        $this->cache = Arr::get($config, 'cache', false);
+        $this->cacheRepository = $cacheManager->driver(Arr::get($config, 'cache_driver'));
         $this->cacheLifetime = Arr::get($config, 'cache_lifetime', 0);
     }
 
@@ -44,9 +53,15 @@ class GeoLocationDriver implements LocationDriver
      */
     public function resolve(Request $request): ?Location
     {
-        return $this->cache->remember($this->getCacheKey($request), $this->cacheLifetime, function () use ($request) {
+        $resolver = function () use ($request) {
             return $this->provider->getByIp($request->getClientIp());
-        });
+        };
+
+        if ($this->cache) {
+            return $this->cacheRepository->remember($this->getCacheKey($request), $this->cacheLifetime, $resolver);
+        } else {
+            return call_user_func($resolver);
+        }
     }
 
     /**

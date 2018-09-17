@@ -2,7 +2,7 @@
 
 namespace MegaKit\Laravel\Location\Drivers;
 
-class SubdomainLocationDriver extends AbstractResolverDriver
+class SubdomainLocationDriver extends ResolverLocationDriver
 {
     //
 }
